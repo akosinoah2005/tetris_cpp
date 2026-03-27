@@ -26,7 +26,7 @@ int main() {
                             { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                             { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
     };
-    int block = 4;
+    int block = 1;
     short pos = 7;
     short pos2 = 1;
     bool stop = 0;
@@ -55,7 +55,7 @@ int main() {
     fall.join();
     move.join();
     load.join();
-
+    
     system("cls");
     std::cout << "Game Over";
 	system("pause");
@@ -81,6 +81,8 @@ bool checkUnder(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
     }
     return false;
 }
+
+
 
 //load empty block or remove block
 void loadEmptyBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
@@ -305,9 +307,33 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), bo
             loadBlock(Design, block, pos, pos2);
             Sleep(100);
         }
+
+        //this will check every row if there is a full row and if there is, it will remove the row and move everything above it down by one.
+        int R;
+        bool remove_Row = true;
+        for (R = 20; R > 0; R--) {
+
+
+            remove_Row = true;
+            for (int C = 1; C < 20 && remove_Row == true; C++) {
+
+                if (Design[R][C] == ' ') {
+                    remove_Row = false;
+                }
+
+            }
+            if (remove_Row) {
+
+                for (int C = 1; C < 21; C++) {
+                    Design[R][C] = ' ';
+                }
+            }
+
+        }
+
         pos = 7;
         pos2 = 1;
-        block = 4;
+        //block = 1; this line is for randomizing block generation.
     }
     loadBlock(Design, block, pos, pos2);
     stop = 1;
