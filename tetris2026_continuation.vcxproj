@@ -129,6 +129,9 @@
   <ItemGroup>
     <ClCompile Include="tetris2026-continuation.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="includes.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
