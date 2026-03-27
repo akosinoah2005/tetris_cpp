@@ -26,7 +26,7 @@ int main() {
                             { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                             { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
     };
-    int block = 2;
+    int block = 5;
     short pos = 7;
     short pos2 = 1;
 
@@ -317,7 +317,7 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
         }
         pos = 7;
         pos2 = 1;
-        block = 2;
+        block = 5;
     }
     loadBlock(Design, block, pos, pos2);
     stop = 1;
