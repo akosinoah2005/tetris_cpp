@@ -14,7 +14,7 @@
 #define ESC 27
 bool checkUnder(char(&Design)[22][22], int(&block), short(&pos), short(&pos2));
 int getrandom();
-
+bool stop = 0;
 void loadEmptyBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2));
 bool Game_Over(char(&Design)[22][22], int(&block), short(&pos), short(&pos2));
 void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2),int(&value), char(&key));

@@ -26,7 +26,7 @@ int main() {
                             { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                             { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
     };
-    int block = 1;
+    int block = 2;
     short pos = 7;
     short pos2 = 1;
 
@@ -56,6 +56,7 @@ int main() {
 
     system("cls");
     std::cout << "Game Over";
+	system("pause");
     return 0;
 }
 
@@ -79,7 +80,10 @@ bool checkUnder(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
     return false;
 }
 
-bool Game_Over(char(&Design)[22][22], int(&block), short(&pos), short(&pos2));
+bool Game_Over(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
+
+    return true;
+}
 
 //load empty block or remove block
 void loadEmptyBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
@@ -124,13 +128,14 @@ int getrandom() {
 }
 //load the page
 void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int(&value), char(&key)) {//load the game
-    
-    while (key != ESC) {
-        COORD position = { 0, 0 };
-        HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD position = { 0, 0 };
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    std::string gamerz = "";
+    while (key != ESC && stop == 0) {
+        
         SetConsoleCursorPosition(output, position);
 
-        std::string gamerz = "";
+        gamerz = "";
         for (int i = 0; i <= 21; i++)
         {
             for (int j = 0; j <= 21; j++) {
@@ -142,8 +147,19 @@ void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), i
         std::cout << "poss1 : " << pos << '\n' << "pos2 : " << pos2<<' ';
         
         } 
-        
-       
+    SetConsoleCursorPosition(output, position);
+
+    gamerz = "";
+    for (int i = 0; i <= 21; i++)
+    {
+        for (int j = 0; j <= 21; j++) {
+            gamerz += Design[i][j];
+        }
+        gamerz += '\n';
+    }
+
+    std::cout << gamerz << '\n' << "Score: WLA PA\n";
+    std::cout << "poss1 : " << pos << '\n' << "pos2 : " << pos2 << ' ';
 
 
     
@@ -266,8 +282,9 @@ void sideways(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int
          key = _getch();
          value = key;
 
-        while (true) {
+        while (stop == 0) {
 
+            
             switch (key) {
             case KEY_RIGHT:
                 moveBlockright(Design, block, pos, pos2);
@@ -284,6 +301,7 @@ void sideways(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int
 
     
 }
+
 void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
    
     while (checkUnder(Design, block, pos, pos2)) {
@@ -299,8 +317,10 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
         }
         pos = 7;
         pos2 = 1;
-        block = 1;
+        block = 2;
     }
     loadBlock(Design, block, pos, pos2);
+    stop = 1;
+	
 }
 
