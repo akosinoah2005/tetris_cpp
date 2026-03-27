@@ -29,31 +29,28 @@ int main() {
     int block = 4;
     short pos = 7;
     short pos2 = 1;
-
+    bool stop = 0;
     char key = ' ';
     int value = 0;
 
 
     loadBlock(Design, block, pos, pos2);
 
-    void(*loadptr)(char(&)[22][22], int(&), short(&), short(&), int(&), char(&));
+    void(*loadptr)(char(&)[22][22], int(&), short(&), short(&), int(&), char(&), bool (&));
     loadptr = loadtetris;
 
-    void(*fallptr)(char(&)[22][22], int(&), short(&), short(&));
+    void(*fallptr)(char(&)[22][22], int(&), short(&), short(&), bool(&));
     fallptr = fallBlock;
 
-    void(*sidewayptr)(char(&)[22][22], int(&), short(&), short(&), int(&), char(&));
+    void(*sidewayptr)(char(&)[22][22], int(&), short(&), short(&), int(&), char(&), bool(&));
     sidewayptr = sideways;
 
-    std::thread fall(fallptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2));
+    std::thread fall(fallptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(stop));
 
-	
-        std::thread load(loadptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key));
-        std::thread move(sidewayptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key));
-    
-    
-    
-
+        std::thread load(loadptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key), std::ref(stop));
+        
+        std::thread move(sidewayptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key), std::ref(stop));
+        
 
     fall.join();
     move.join();
@@ -83,11 +80,6 @@ bool checkUnder(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
         return true;
     }
     return false;
-}
-
-bool Game_Over(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
-
-    return true;
 }
 
 //load empty block or remove block
@@ -123,6 +115,7 @@ void loadEmptyBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2
         Design[pos2 + 3][pos] = ' '; Design[pos2 + 3][pos + 1] = ' '; Design[pos2 + 3][pos + 2] = ' '; Design[pos2 + 3][pos + 3] = ' ';
     }
 }
+
 //get random num
 int getrandom() {
     std::random_device rd;
@@ -131,12 +124,13 @@ int getrandom() {
 
     return randomnum;
 }
-//load the page
-void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int(&value), char(&key)) {//load the game
+
+//load the frame and score
+void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int(&value), char(&key), bool(&stop)) {//load the game
     COORD position = { 0, 0 };
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     std::string gamerz = "";
-    while (key != ESC && stop == 0 {
+    while (key != ESC && stop == 0) {
         
         SetConsoleCursorPosition(output, position);
 
@@ -170,7 +164,7 @@ void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), i
     
 }
 
-//get and load the block
+//get and load the block on the array
 void loadBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
     if (block == 1) {
         //square
@@ -203,7 +197,6 @@ void loadBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
     }
 }
 
-//movement
 void moveBlockright(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
     bool move = false;
     switch (block) {
@@ -281,15 +274,11 @@ void moveBlockleft(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)
 }
 
 
-void sideways(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int(&value), char(&key)) {
-    
-
+void sideways(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int(&value), char(&key), bool(&stop)) {
          key = _getch();
          value = key;
 
         while (stop == 0) {
-
-            
             switch (key) {
             case KEY_RIGHT:
                 moveBlockright(Design, block, pos, pos2);
@@ -302,13 +291,10 @@ void sideways(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), int
             key = _getch();
             value = key;
         }
-
-
-    
 }
 
-void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
-   
+void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), bool(&stop)) {
+    
     while (checkUnder(Design, block, pos, pos2)) {
         loadBlock(Design, block, pos, pos2);
         Sleep(10);

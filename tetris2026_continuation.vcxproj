@@ -127,10 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="tetris_cpp.cpp" />
+    <ClInclude Include="includes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes.h" />
+    <ClCompile Include="tetris2026-continuation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
