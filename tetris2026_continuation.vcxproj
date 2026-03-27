@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="tetris2026-continuation.cpp" />
+    <ClCompile Include="tetris_cpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h" />

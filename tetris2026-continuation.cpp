@@ -26,7 +26,7 @@ int main() {
                             { '#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
                             { '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
     };
-    int block = 5;
+    int block = 4;
     short pos = 7;
     short pos2 = 1;
 
@@ -45,9 +45,14 @@ int main() {
     void(*sidewayptr)(char(&)[22][22], int(&), short(&), short(&), int(&), char(&));
     sidewayptr = sideways;
 
-    std::thread load(loadptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key));
-    std::thread move(sidewayptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key));
     std::thread fall(fallptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2));
+
+	
+        std::thread load(loadptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key));
+        std::thread move(sidewayptr, std::ref(Design), std::ref(block), std::ref(pos), std::ref(pos2), std::ref(value), std::ref(key));
+    
+    
+    
 
 
     fall.join();
@@ -131,7 +136,7 @@ void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), i
     COORD position = { 0, 0 };
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     std::string gamerz = "";
-    while (key != ESC && stop == 0) {
+    while (key != ESC && stop == 0 {
         
         SetConsoleCursorPosition(output, position);
 
@@ -309,7 +314,6 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
         Sleep(10);
 
         while (checkUnder(Design, block, pos, pos2)) {
-
             loadEmptyBlock(Design, block, pos, pos2);
             pos2++;
             loadBlock(Design, block, pos, pos2);
@@ -317,7 +321,7 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2)) {
         }
         pos = 7;
         pos2 = 1;
-        block = 5;
+        block = 4;
     }
     loadBlock(Design, block, pos, pos2);
     stop = 1;
