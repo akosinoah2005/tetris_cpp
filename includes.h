@@ -6,12 +6,13 @@
 #include <Windows.h>
 #include <string>
 
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-#define space 32
-#define ESC 27
+static constexpr int KEY_UP = 72;
+static constexpr int KEY_DOWN = 80;
+static constexpr int KEY_LEFT = 75;
+static constexpr int KEY_RIGHT = 77;
+static constexpr int Space = 32;
+static constexpr int Esc = 27;
+
 bool checkUnder(char(&Design)[22][22], int(&block), short(&pos), short(&pos2));
 int getrandom();
 

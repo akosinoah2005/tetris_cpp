@@ -132,7 +132,7 @@ void loadtetris(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), i
     COORD position = { 0, 0 };
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     std::string gamerz = "";
-    while (key != ESC && stop == 0) {
+    while (key != Esc && stop == 0) {
         
         SetConsoleCursorPosition(output, position);
 
@@ -309,13 +309,11 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), bo
         }
 
         //this will check every row if there is a full row and if there is, it will remove the row and move everything above it down by one.
-        int R;
-        bool remove_Row = true;
-        for (R = 20; R > 0; R--) {
+        for (int R = 1; R < 21; R++) {
 
 
-            remove_Row = true;
-            for (int C = 1; C < 20 && remove_Row == true; C++) {
+            bool remove_Row = true;
+            for (int C = 1; C < 21 && remove_Row == true; C++) {
 
                 if (Design[R][C] == ' ') {
                     remove_Row = false;
@@ -325,11 +323,20 @@ void fallBlock(char(&Design)[22][22], int(&block), short(&pos), short(&pos2), bo
             if (remove_Row) {
 
                 for (int C = 1; C < 21; C++) {
+                    //removes the full row
                     Design[R][C] = ' ';
                 }
+                //bring down the whole page above the row 1 down
+                for (int row_swap = R; row_swap > 1; row_swap--) {
+                    for (int C = 1; C < 21; C++) {
+                        Design[row_swap][C] = Design[row_swap - 1][C];
+                    }
+                }
+                
             }
 
         }
+
 
         pos = 7;
         pos2 = 1;
